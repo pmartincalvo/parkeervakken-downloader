@@ -1,0 +1,3 @@
+python-dotenv
+requests
+compress_json
