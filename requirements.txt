@@ -1,3 +1,7 @@
-python-dotenv
-requests
-compress_json
+certifi==2019.11.28
+chardet==3.0.4
+compress-json==1.0.0
+idna==2.8
+python-dotenv==0.10.5
+requests==2.22.0
+urllib3==1.25.8
