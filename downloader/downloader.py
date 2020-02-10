@@ -94,9 +94,6 @@ class DestinationInterface:
 def download_snapshot(config):
     destination = DestinationInterface(config.DESTINATION_FOLDER_PATH)
     json_composer = GeoJsonComposer()
-    fiscaal_page_iterator = PagedEndpointIterator(
-        config.API_BASE_URL, config.RESOURCE_PATH, only_fiscaal=True
-    )
     not_fiscaal_page_iterator = PagedEndpointIterator(
         config.API_BASE_URL, config.RESOURCE_PATH
     )
