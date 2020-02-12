@@ -100,13 +100,23 @@ class DestinationInterface:
 def download_snapshot(config):
     destination = DestinationInterface(config.DESTINATION_FOLDER_PATH)
     json_composer = GeoJsonComposer()
+    fiscaal_page_iterator = PagedEndpointIterator(
+        config.API_BASE_URL, config.RESOURCE_PATH, only_fiscaal=True
+    )
     not_fiscaal_page_iterator = PagedEndpointIterator(
-        config.API_BASE_URL, config.RESOURCE_PATH
+        config.API_BASE_URL, config.RESOURCE_PATH, only_fiscaal=False
     )
 
     try:
         for page_content in not_fiscaal_page_iterator.get_pages():
             json_composer.insert_records(page_content)
+    except Exception as e:
+        logging.error(e)
+        return
+
+    try:
+        for page_content in fiscaal_page_iterator:
+            json_composer.insert_if_not_exist(page_content)
     except Exception as e:
         logging.error(e)
         return
