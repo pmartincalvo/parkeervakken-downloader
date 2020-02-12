@@ -51,17 +51,23 @@ class PagedEndpointIterator:
 class GeoJsonComposer:
     def __init__(self):
         self._vakken_list = []
+        self._present_ids = set()
 
     def insert_records(self, record_list, are_fiscaal=False):
         if are_fiscaal:
             for record in record_list:
                 record["soort"] = "FISCAAL"
+        else:
+            for record in record_list:
+                record["soort"] = ""
         self._vakken_list.extend(record_list)
 
+        for record in record_list:
+            self._present_ids.add(record["id"])
+
     def insert_if_not_exist(self, record_list):
-        present_ids = [existing_record["id"] for existing_record in self._vakken_list]
         records_to_insert = [
-            record for record in record_list if record["id"] in present_ids
+            record for record in record_list if record["id"] in self._present_ids
         ]
         self.insert_records(records_to_insert)
 
