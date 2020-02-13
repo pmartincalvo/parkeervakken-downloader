@@ -115,7 +115,7 @@ def download_snapshot(config):
         return
 
     try:
-        for page_content in fiscaal_page_iterator:
+        for page_content in fiscaal_page_iterator.get_pages():
             json_composer.insert_if_not_exist(page_content)
     except Exception as e:
         logging.error(e)
