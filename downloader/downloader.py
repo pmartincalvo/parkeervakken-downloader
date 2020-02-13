@@ -33,11 +33,11 @@ class PagedEndpointIterator:
     def __init__(self, base_url, resource_path, only_fiscaal=False):
         self._base_url = base_url
         self._resource_path = resource_path
-        self._only_fiscaal = only_fiscaal
+        self.only_fiscaal = only_fiscaal
 
     def get_pages(self):
         next_page = self._base_url + self._resource_path
-        if self._only_fiscaal:
+        if self.only_fiscaal:
             next_page = next_page + "/?soort=FISCAAL"
         while next_page is not None:
             attempt = DownloadAttempt(next_page)
@@ -65,11 +65,11 @@ class GeoJsonComposer:
         for record in record_list:
             self._present_ids.add(record["id"])
 
-    def insert_if_not_exist(self, record_list):
+    def insert_if_not_exist(self, record_list, are_fiscaal=False):
         records_to_insert = [
             record for record in record_list if record["id"] in self._present_ids
         ]
-        self.insert_records(records_to_insert)
+        self.insert_records(records_to_insert, are_fiscaal)
 
     def get_content(self):
         return self._vakken_list
@@ -112,7 +112,7 @@ def download_snapshot(config):
     try:
         for page_iterator in all_iterators:
             for page_content in page_iterator.get_pages():
-                json_composer.insert_if_not_exist(page_content)
+                json_composer.insert_if_not_exist(page_content, are_fiscaal=page_iterator.only_fiscaal)
     except Exception as e:
         logging.error(e)
         return
