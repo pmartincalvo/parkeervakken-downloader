@@ -107,7 +107,7 @@ def download_snapshot(config):
         config.API_BASE_URL, config.RESOURCE_PATH, only_fiscaal=False
     )
 
-    all_iterators = (fiscaal_page_iterator, not_fiscaal_page_iterator)
+    all_iterators = [fiscaal_page_iterator, not_fiscaal_page_iterator]
 
     try:
         for page_iterator in all_iterators:
