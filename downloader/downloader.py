@@ -107,16 +107,12 @@ def download_snapshot(config):
         config.API_BASE_URL, config.RESOURCE_PATH, only_fiscaal=False
     )
 
-    try:
-        for page_content in not_fiscaal_page_iterator.get_pages():
-            json_composer.insert_records(page_content)
-    except Exception as e:
-        logging.error(e)
-        return
+    all_iterators = (fiscaal_page_iterator, not_fiscaal_page_iterator)
 
     try:
-        for page_content in fiscaal_page_iterator.get_pages():
-            json_composer.insert_if_not_exist(page_content)
+        for page_iterator in all_iterators:
+            for page_content in page_iterator.get_pages():
+                json_composer.insert_if_not_exist(page_content)
     except Exception as e:
         logging.error(e)
         return
