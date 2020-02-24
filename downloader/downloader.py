@@ -67,7 +67,7 @@ class GeoJsonComposer:
 
     def insert_if_not_exist(self, record_list, are_fiscaal=False):
         records_to_insert = [
-            record for record in record_list if record["id"] in self._present_ids
+            record for record in record_list if record["id"] not in self._present_ids
         ]
         self.insert_records(records_to_insert, are_fiscaal)
 
