@@ -4,4 +4,4 @@ compress-json==1.0.0
 idna==2.8
 python-dotenv==0.10.5
 requests==2.22.0
-urllib3==1.25.8
+urllib3==1.26.5
